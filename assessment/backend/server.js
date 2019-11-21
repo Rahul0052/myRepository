@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 var cors = require('cors')
 const express = require('express')
 const app = express()
+app.use(bodyParser.json({ limit: '10mb', extended: true }))
 app.use(cors())
 app.use(bodyParser());
 const db = 'mongodb://mcbhyd.mcbitsstech.com:27017/Test_Rahul';
@@ -101,7 +102,7 @@ fs.readFile('./covers.json', (err, data1) => {
       })
     })
     // console.log(arrayOne)
-    Item.create(arrayOne)
+    // Item.create(arrayOne)
   })
 })
 app.get('/item1', (req, res) => {
@@ -146,6 +147,19 @@ app.get('/:id', ({ params }, res, next) => {
     }
   });
 });
+app.put('/:id', (req, res) => {
+  // console.log(req.body.myObj)
+
+  Item.findByIdAndUpdate({ _id: req.params.id },{ $set: { status: req.body.myObj } }, (err, result) => {
+    if (err) {
+      res.send(err)
+    }
+    else {
+      res.send({ result: result })
+    }
+
+  })
+})
 
 app.get('/', (req, res) => {
   res.send('Hello')

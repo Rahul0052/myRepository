@@ -23,6 +23,25 @@
   to { transform: rotate(360deg); }
 }
 
+.col-container {
+  border:1px;
+  background: antiquewhite;
+  height: 340px;
+  width: 200px;
+}
+.container-big {
+  border: 1px;
+  background: antiquewhite;
+  height: auto;
+  width: 1000px;
+  text-align: center;
+  margin: 0 auto;
+}
+.edit-button {
+  text-align: center
+}
+
+
 
 /* .main_grid {
 } */

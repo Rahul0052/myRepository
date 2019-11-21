@@ -1,76 +1,51 @@
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom'
 // import axios from 'axios';
+import { Row, Col, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 class Grid extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            myData: this.props.myData
-        }
-        console.log(this.state.myData)
-    }
-
-    // componentDidMount() {
-    //     axios.get(`http://localhost:5000/item1`)
-    //         .then(res => {
-    //             const person = res.data;
-    //             this.setState({ data: person });
-    //         })
-    // }
 
     render() {
 
-        // const divStyle = {
-        //     color: 'blue',
-        //   };
-
-        // return this.props.myData.map((item, index) => (
-        //     <span className="indent" key={index}>
-
-        //         {console.log(item.title)}
-
-        //     </span>
-
-        // )
-        // );
-
-        const data = [...this.state.myData]
-        console.log(data)
-        const myFunction = () => {
-
-            for (var i = 0; i < data.length; i++) {
-                <div>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm">
-                                <label>Title: {data[i].title}</label>
-                                <label>description: {data[i].description}</label>
-                                <label>languageIDs: {data[i].languageIDs}</label>
-                                <label>genres: {data[i].genres}</label>
-                                <label>Title: {data[i].description}</label>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-
-            }
-        }
-
-
-
         return (
             <div>
-                {this.myFunction}
+                <div>
+                    <Container >
+                        <Row>
+                            {this.props.data.map((value, index) => {
+
+                                return (
+                                    <Col border="1" key={index}>
+                                        <Container className="col-container"><br />
+                                            <Link to={`/${value._id}`}><img src={value.covers} alt="Smiley face" className="rounded" width='100px' height='150px' /></Link>
+                                            <br />
+                                            Title : {value.title} <br />
+                                            Released : {value.released} <br />
+                                            {/* Description : {value.description}<br/> */}
+                                            Rating : {value.rating}<br />
+                                            Language : {value.languageIDs}<br />
+                                            Generes : {value.genres}<br />
+                                        </Container>
+                                        <br />
+
+                                    </Col>
+                                )
+
+                            })}
+                        </Row>
+
+                    </Container>
+
+
+                </div>
+                {/* {items} */}
+
             </div>
+
         )
+
     }
+
 }
-
-
 
 export default Grid

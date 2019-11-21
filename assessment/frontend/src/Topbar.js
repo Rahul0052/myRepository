@@ -9,16 +9,39 @@ import Form from 'react-bootstrap/Form';
 // import Media from 'react-bootstrap/Media'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import Navbar from 'react-bootstrap/Navbar'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from "react-router-dom";
 import Grid from './Grid'
+import Detail from './Detail'
 
+
+
+function readFile(file) {
+    return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => resolve(reader.result), false);
+        reader.readAsDataURL(file);
+    });
+}
 class Topbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
-            addModalShow: false
+            title: '',
+            description: '',
+            rating: '',
+            released: '',
+            language: '',
+            genres: '',
+            addModalShow: false,
+            fileName: '',
+            covers: ''
         }
-        console.log(this.state.data)
+        // console.log(this.props.match)
     }
 
     componentDidMount() {
@@ -26,17 +49,73 @@ class Topbar extends Component {
             .then(res => {
                 const person = res.data;
                 this.setState({ data: person });
+                // console.log(this.state.data)
             })
-
     }
 
+    // }
+    titleData = (event) => {
+        this.setState({ title: event.target.value })
+    }
+    descData = (event) => {
+        this.setState({ description: event.target.value })
+    }
+    releasedData = (event) => {
+        this.setState({ released: event.target.value })
+    }
+
+    ratingData = (event) => {
+        this.setState({ rating: event.target.value })
+    }
+    languageData = (event) => {
+        this.setState({ language: event.target.value })
+    }
+    genresData = (event) => {
+        this.setState({ genres: event.target.value })
+    }
+    uploadData = async e => {
+        this.setState({ fileName: e.target.files[0].name })
+        console.log(e.target.files[0].name)
+        if (e.target.files && e.target.files.length > 0) {
+            const imageDataUrl = await readFile(e.target.files[0]);
+            // const base64 = await this.getBase64(imageDataUrl);
+            this.setState({ covers: imageDataUrl })
+            // console.log(imageDataUrl)
+        }
+    };
+
+
+    addSavedData = (e) => {
+
+        const dataUpdate = [...this.state.data]
+        const myObj = {
+            movieId: '',
+            released: this.state.released,
+            title: this.state.title,
+            description: this.state.description,
+            rating: this.state.rating,
+            languageIDs: this.state.language,
+            genres: this.state.genres,
+            fileName: this.state.fileName,
+            covers: this.state.covers
+        }
+        // console.log(myObj)
+        axios.post(`http://localhost:5000/insert`, { myObj })
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            })
+
+        this.setState({ handleShow: false, data: dataUpdate })
+    }
+    
     render() {
         const handleClose = () => this.setState({ handleShow: false })
         return (
             <div>
                 <div>
                     <Navbar bg="light" expand="lg">
-                        <Navbar.Brand href="#home">Movie Database</Navbar.Brand>
+                        <Navbar.Brand href="/">Movie Database</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
@@ -60,23 +139,31 @@ class Topbar extends Component {
                                                 <Form.Group controlId="formBasicEmail">
                                                     <Form.Label>title</Form.Label>
                                                     <Form.Control
-                                                        type="name" onChange={(e) => this.saveNameFun(e)} />
+                                                        type="text" onChange={(e) => this.titleData(e)} />
                                                 </Form.Group>
 
                                                 <Form.Group controlId="formBasicEmail">
                                                     <Form.Label>description</Form.Label>
-                                                    <Form.Control type="number" onChange={(e) => this.saveAgeFun(e)} />
+                                                    <Form.Control type="text" onChange={(e) => this.descData(e)} />
+                                                </Form.Group>
+                                                <Form.Group controlId="formBasicEmail">
+                                                    <Form.Label>Released</Form.Label>
+                                                    <Form.Control type="text" onChange={(e) => this.releasedData(e)} />
                                                 </Form.Group>
                                                 <Form.Group controlId="formBasicEmail">
                                                     <Form.Label>rating</Form.Label>
-                                                    <Form.Control type="text" onChange={(e) => this.saveStatusFun(e)} />
+                                                    <Form.Control type="number" onChange={(e) => this.ratingData(e)} />
                                                 </Form.Group>
                                                 <Form.Group controlId="formBasicEmail">
-                                                    <Form.Label>languageIDs</Form.Label>
-                                                    <Form.Control type="text" onChange={(e) => this.saveEmailFun(e)} />
+                                                    <Form.Label>Language</Form.Label>
+                                                    <Form.Control type="text" onChange={(e) => this.languageData(e)} />
                                                     <Form.Group controlId="formBasicEmail">
-                                                        <Form.Label>genres</Form.Label>
-                                                        <Form.Control type="text" onChange={(e) => this.saveAddressFun(e)} />
+                                                        <Form.Label>Genres</Form.Label>
+                                                        <Form.Control type="text" onChange={(e) => this.genresData(e)} />
+                                                    </Form.Group>
+                                                    <Form.Group controlId="formBasicEmail">
+                                                        <Form.Label>Upload</Form.Label>
+                                                        <input type="file" onChange={(e) => this.uploadData(e)} />
                                                     </Form.Group>
                                                 </Form.Group>
                                             </Form>
@@ -101,10 +188,16 @@ class Topbar extends Component {
 
                 </div>
 
+                <Router>
+                    <Switch>
+                        <Route path="/" exact>
+                            <Grid data={this.state.data} />
+                        </Route>
+                        <Route path="/:id" exact component={Detail} />
+                    </Switch>
 
-                <Grid
-                    myData={this.state.data}
-                />
+                </Router>
+
             </div>
 
         )

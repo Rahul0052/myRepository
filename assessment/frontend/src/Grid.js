@@ -13,7 +13,6 @@ class Grid extends Component {
                     <Container >
                         <Row>
                             {this.props.data.map((value, index) => {
-
                                 return (
                                     <Col border="1" key={index}>
                                         <Container className="col-container"><br />

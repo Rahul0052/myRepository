@@ -24,7 +24,7 @@ class Detail extends Component {
         axios.get(`http://localhost:5000/${this.props.match.params.id}`)
             .then(({ data: user }) => {
                 console.log('user', user);
-                this.setState({ user });
+                this.setState({ user, description: user.description, rating: user.rating, title: user.title, released: user.released, language: user.languageIDs, genres: user.genres, movieId: user.movieId, fileName: user.fileName, covers: user.covers });
             });
     }
 
@@ -49,6 +49,7 @@ class Detail extends Component {
     }
     addSavedData = (e) => {
         const myObj = {
+            movieId: this.state.movieId,
             title: this.state.user.title,
             covers: this.state.user.covers,
             released: this.state.released,
@@ -56,15 +57,9 @@ class Detail extends Component {
             rating: this.state.rating,
             languageIDs: this.state.language,
             genres: this.state.genres,
+            fileName:this.state.fileName
         }
 
-
-        // this.state.user.title = this.state.title 
-        // this.state.user.description = this.state.description                
-        // this.state.user.released = this.state.released                
-        // this.state.user.languageIDs = this.state.languageIDs                
-        // this.state.user.genres = this.state.genres 
-        // this.state.user.released = this.state.released
 
 
 
@@ -89,7 +84,7 @@ class Detail extends Component {
                                     <Form>
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Label>Released</Form.Label>
-                                            <Form.Control type="text" defaultValue={this.state.user.released} onChange={(e) => this.ratingData(e)} />
+                                            <Form.Control type="text" defaultValue={this.state.user.released} onChange={(e) => this.releasedData(e)} />
                                         </Form.Group>
 
                                         <Form.Group controlId="formBasicEmail">

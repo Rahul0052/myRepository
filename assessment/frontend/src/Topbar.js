@@ -86,8 +86,6 @@ class Topbar extends Component {
 
 
     addSavedData = (e) => {
-
-        const dataUpdate = [...this.state.data]
         const myObj = {
             movieId: '',
             released: this.state.released,
@@ -106,7 +104,8 @@ class Topbar extends Component {
                 console.log(res.data);
             })
 
-        this.setState({ handleShow: false, data: dataUpdate })
+        this.setState({ handleShow: false})
+
     }
 
     render() {

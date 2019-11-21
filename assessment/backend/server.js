@@ -127,7 +127,6 @@ app.get('/item1/:id', (req, res) => {
 
 })
 app.post('/insert', (req, res) => {
-  // const store = req.body.myObj
   Item.create(req.body.myObj, (err, result) => {
     if (err) {
       res.send(err)

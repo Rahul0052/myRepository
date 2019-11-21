@@ -108,7 +108,7 @@ class Topbar extends Component {
 
         this.setState({ handleShow: false, data: dataUpdate })
     }
-    
+
     render() {
         const handleClose = () => this.setState({ handleShow: false })
         return (

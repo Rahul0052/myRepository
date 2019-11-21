@@ -49,18 +49,25 @@ class Detail extends Component {
     }
     addSavedData = (e) => {
         const myObj = {
-            movieId: '',
-            // covers:this.state.user.covers,
+            title: this.state.user.title,
+            covers: this.state.user.covers,
             released: this.state.released,
-            title: this.state.title,
             description: this.state.description,
             rating: this.state.rating,
             languageIDs: this.state.language,
             genres: this.state.genres,
-            fileName: this.state.fileName,
-            covers: this.state.covers
         }
-        console.log(this.state.user.released)
+
+
+        // this.state.user.title = this.state.title 
+        // this.state.user.description = this.state.description                
+        // this.state.user.released = this.state.released                
+        // this.state.user.languageIDs = this.state.languageIDs                
+        // this.state.user.genres = this.state.genres 
+        // this.state.user.released = this.state.released
+
+
+
         this.setState({ handleShow: false, user: myObj })
     }
     render() {
@@ -81,19 +88,15 @@ class Detail extends Component {
                                 <Modal.Body>
                                     <Form>
                                         <Form.Group controlId="formBasicEmail">
-                                            <Form.Label>title</Form.Label>
-                                            <Form.Control
-                                                type="text" defaultValue={this.state.user.title} onChange={(e) => this.titleData(e)} />
+                                            <Form.Label>Released</Form.Label>
+                                            <Form.Control type="text" defaultValue={this.state.user.released} onChange={(e) => this.ratingData(e)} />
                                         </Form.Group>
 
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Label>description</Form.Label>
                                             <Form.Control type="text" defaultValue={this.state.user.description} onChange={(e) => this.descData(e)} />
                                         </Form.Group>
-                                        <Form.Group controlId="formBasicEmail">
-                                            <Form.Label>Released</Form.Label>
-                                            <Form.Control type="text" defaultValue={this.state.user.released} onChange={(e) => this.ratingData(e)} />
-                                        </Form.Group>
+
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Label>rating</Form.Label>
                                             <Form.Control type="number" defaultValue={this.state.user.rating} onChange={(e) => this.releasedData(e)} />
@@ -118,14 +121,13 @@ class Detail extends Component {
                         </Modal>
 
                     </ButtonToolbar>
-                    <h1>{this.state.user.title}</h1> <br />
-                    <img src={this.state.user.covers} alt="" className="rounded" width='100px' height='150px' /><br />
+                    <h1>{this.state.user.title}</h1>
+                    <img src={this.state.user.covers} alt="" className="rounded" width='250px' height='400px' /><br /><br />
                     Released : {this.state.user.released} <br />
                     Description : {this.state.user.description}<br />
                     Rating : {this.state.user.rating}<br />
                     Language : {this.state.user.languageIDs}<br />
                     Generes : {this.state.user.genres}<br />
-
                 </div>
             </div>
         )

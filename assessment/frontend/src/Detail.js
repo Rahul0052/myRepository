@@ -49,17 +49,17 @@ class Detail extends Component {
     }
     addSavedData = (e) => {
         const myObj = {
-            movieId: this.state.user.movieId,
-            title: this.state.user.title,
-            covers: this.state.user.covers,
-            released: this.state.user.released,
-            description: this.state.user.description,
-            rating: this.state.user.rating,
-            languageIDs: this.state.user.language,
-            genres: this.state.user.genres,
-            fileName: this.state.user.fileName,
+            movieId: this.state.movieId,
+            title: this.state.title,
+            covers: this.state.covers,
+            released: this.state.released,
+            description: this.state.description,
+            rating: this.state.rating,
+            languageIDs: this.state.language,
+            genres: this.state.genres,
+            fileName: this.state.fileName,
         }
-        console.log(this.state.user.released)
+        console.log(this.state.released)
         this.setState({ handleShow: false, user: myObj })
         axios.put(`http://localhost:5000/${this.props.match.params.id}`, { myObj })
             .then(res => {

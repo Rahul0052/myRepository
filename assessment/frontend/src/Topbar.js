@@ -80,12 +80,13 @@ class Topbar extends Component {
             const imageDataUrl = await readFile(e.target.files[0]);
             // const base64 = await this.getBase64(imageDataUrl);
             this.setState({ covers: imageDataUrl })
-            // console.log(imageDataUrl)
+            console.log(imageDataUrl)
         }
     };
 
 
     addSavedData = (e) => {
+
         const myObj = {
             movieId: '',
             released: this.state.released,
@@ -97,7 +98,7 @@ class Topbar extends Component {
             fileName: this.state.fileName,
             covers: this.state.covers
         }
-        // console.log(myObj)
+        this.state.data.push(myObj)
         axios.post(`http://localhost:5000/insert`, { myObj })
             .then(res => {
                 console.log(res);

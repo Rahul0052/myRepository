@@ -31,7 +31,7 @@ const ItemSchema = new Schema({
     type: Number
   },
   released: {
-    type: Number
+    type: String
   },
   title: {
     type: String
@@ -102,7 +102,7 @@ fs.readFile('./covers.json', (err, data1) => {
       })
     })
     // console.log(arrayOne)
-    // Item.create(arrayOne)
+    Item.create(arrayOne)
   })
 })
 app.get('/item1', (req, res) => {
@@ -128,6 +128,7 @@ app.get('/item1/:id', (req, res) => {
 
 })
 app.post('/insert', (req, res) => {
+  console.log(req.body.myObj)
   Item.create(req.body.myObj, (err, result) => {
     if (err) {
       res.send(err)
@@ -148,9 +149,8 @@ app.get('/:id', ({ params }, res, next) => {
   });
 });
 app.put('/:id', (req, res) => {
-  // console.log(req.body.myObj)
-
-  Item.findByIdAndUpdate({ _id: req.params.id },{ $set: { status: req.body.myObj } }, (err, result) => {
+  console.log(req)
+  Item.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body.myObj }, (err, result) => {
     if (err) {
       res.send(err)
     }
